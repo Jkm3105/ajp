@@ -1,0 +1,98 @@
+index.jsp
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Register Now </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div>Go to Register Now </div>
+        <a href="register.jsp">Go to register</a>
+        
+    </body>
+</html>
+
+db.jsp
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>User Information is </title>
+    </head>
+    <body>
+        <h1>User details</h1>
+        <%
+            String fname= request.getParameter("fname");
+              String add = request.getParameter("address");
+        String phone = request.getParameter("phone");
+        String password= "123";
+        String department = request.getParameter("dept");
+        String salary = request.getParameter("sal");
+        %>
+        <p> Name: <%= fname %></p>
+        <p> Address:<%= add %></p>
+        <p> phone:<%= phone %></p>
+        <p> Department:<%= department %></p>
+        <p> Salary : <%= salary %></p>
+        
+        <%
+            try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/emp";
+            Connection conn = DriverManager.getConnection(url, "root","admin");
+            String sql = "insert into employee values(13,?,?,?,25,?,?)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            double id = Math.random()*10;
+            if(password.equals("123"))
+            {
+                pstmt.setString(1, fname);
+                pstmt.setString(2,add);
+                pstmt.setString(3,phone);
+                pstmt.setString(4,department);
+                pstmt.setString(5,salary);
+                pstmt.execute();
+                System.out.println("Data Saved Succesfully");     
+                out.println("<h1>Data Saved Succesfully<h1>");                     
+            }
+            else{
+                System.out.println("<H1>Data is not Saved Yet</h1>");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        %>
+        
+        
+    </body>
+</html>
+
+
+
+
+registered.jsp
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>Register Now </h1>
+        <form class="myform" action="db.jsp" method="POST">
+            <table>
+                <tr><td>Name: <input type="text" name="fname" value="" size="20" /></td></tr>
+                <tr><td>Add: <input type="text" name="address" value="" size="20" /></td></tr>
+                <tr><td>Phone: <input type="text" name="phone" value="" size="20" /></td></tr>
+                <tr><td>Department: <input type="text" name="dept" value="" size="20" /></td></tr>
+                <tr><td>Salary: <input type="text" name="sal" value="" size="20" /></td></tr>
+            <tr><td><input type="submit" value="Submit" name="submit" /></tr>
+                
+               
+            </table>
+        </form>
+    </body>
+</html>

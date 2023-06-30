@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>Register form</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--        <style>
+            .myform
+            {
+                width:40%;
+                margin: auto;
+                padding: 20px;
+            }
+            </style>-->
+    </head>
+    <body>
+        <div>Welcome to ABC</div>
+        <form class="myform" action="Register" method="POST">
+            <table>
+                <tr><td>Name: <input type="text" name="fname" value="" size="20" /></td></tr>
+                <tr><td>Add: <input type="text" name="address" value="" size="20" /></td></tr>
+                <tr><td>Phone: <input type="text" name="phone" value="" size="20" /></td></tr>
+                <tr><td>Department: <input type="text" name="dept" value="" size="20" /></td></tr>
+                <tr><td>Salary: <input type="text" name="sal" value="" size="20" /></td></tr>
+            <tr><td><input type="submit" value="Submit" name="submit" /></tr>
+                
+               
+            </table>
+        </form>
+    </body>
+</html>
+
+
+-----write this code in register.java
+import java.sql.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+
+public class Register extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html");
+        PrintWriter out = resp.getWriter();
+        String fname= req.getParameter("fname");
+        String add = req.getParameter("address");
+        String phone = req.getParameter("phone");
+        String password= "123";
+        String department = req.getParameter("dept");
+        String salary = req.getParameter("sal");
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/emp";  //it is database
+            Connection conn = DriverManager.getConnection(url, "root","admin");
+            String sql = "insert into employee values(12,?,?,?,21,?,?)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            double id = Math.random()*10;
+            if(password.equals("123"))
+            {
+                pstmt.setString(1, fname);
+                pstmt.setString(2,add);
+                pstmt.setString(3,phone);
+                pstmt.setString(4,department);
+                pstmt.setString(5,salary);
+                pstmt.execute();
+                System.out.println("Data Saved Succesfully");     
+                out.println("<h1>Data Saved Succesfully<h1>");                     
+            }
+            else{
+                System.out.println("<H1>Data is not Saved Yet</h1>");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+}
